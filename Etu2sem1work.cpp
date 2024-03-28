@@ -244,23 +244,47 @@ void saveToFile(const student_t* students, int ammountstudents, const string& st
         cerr << "Unable to open file for reading." << endl;
     }
 }
-void studOutOfGroup(const student_t* students, int ammountstudents) {
 
-}
 void studOutOfNumber(const student_t* students, int ammountstudents) {
+    int idOfStudentForSearch;
+    cout << "Choose id in group of student" << endl;
+    cin >> idOfStudentForSearch;
+    for (int studentcount = 0; studentcount < ammountstudents; studentcount += 1) {
+        if (students[studentcount].group.id_of_student_in_group == idOfStudentForSearch) {
+            cout << "Name: " << students[studentcount].name << endl;
+            cout << "Surname: " << students[studentcount].surname << endl;
+            cout << "Patronymic: " << students[studentcount].patronymic << endl;
+            cout << "Gender: " << students[studentcount].gender << endl;
+            cout << "Group number: " << students[studentcount].group.number_of_group << endl;
+            cout << "ID in group: " << students[studentcount].group.id_of_student_in_group << endl;
+            cout << "Exam grades: ";
+            for (int i = 0; i < 3; ++i) {
+                cout << students[studentcount].grades.exam_grades[i] << " ";
+            }
+            cout << endl;
+
+
+            cout << "Credit grades: ";
+            for (int i = 0; i < 5; ++i) {
+                cout << students[studentcount].grades.credit_grades[i] << " ";
+            }
+            cout << "\n\n\n";
+
+        }
+    }
 
 }
 
 void infoAboutOneStudent(const student_t* students, int ammountstudents) {
-    int groupOfStudentForChange;
-    int numberInGroupOfStudentForChange;
+    int groupOfStudentForSearch;
+    int numberInGroupOfStudentForSearch;
     int studentcount;
     cout << "Choose group of student" << endl;
-    cin >> groupOfStudentForChange;
+    cin >> groupOfStudentForSearch;
     cout << "Choose id in group of student" << endl;
-    cin >> numberInGroupOfStudentForChange;
+    cin >> numberInGroupOfStudentForSearch;
     for (studentcount = 0; studentcount < ammountstudents; studentcount += 1) {
-        if ((students[studentcount].group.number_of_group == groupOfStudentForChange) & (students[studentcount].group.id_of_student_in_group == numberInGroupOfStudentForChange)) {
+        if ((students[studentcount].group.number_of_group == groupOfStudentForSearch) & (students[studentcount].group.id_of_student_in_group == numberInGroupOfStudentForSearch)) {
             break;
         }
     }
@@ -269,7 +293,35 @@ void infoAboutOneStudent(const student_t* students, int ammountstudents) {
     cout << "Patronymic: " << students[studentcount].patronymic << endl;
     cout << "Gender: " << students[studentcount].gender << endl;
 }
+void studOutOfGroup(const student_t* students, int ammountstudents) {
+    int groupOfStudentForSearch;
+    cout << "Choose group of student" << endl;
+    cin >> groupOfStudentForSearch;
+    for (int studentcount = 0; studentcount < ammountstudents; studentcount += 1) {
+        if (students[studentcount].group.number_of_group == groupOfStudentForSearch ) {
+            cout << "Name: " << students[studentcount].name << endl;
+            cout << "Surname: " << students[studentcount].surname << endl;
+            cout << "Patronymic: " << students[studentcount].patronymic << endl;
+            cout << "Gender: " << students[studentcount].gender << endl;
+            cout << "Group number: " << students[studentcount].group.number_of_group << endl;
+            cout << "ID in group: " << students[studentcount].group.id_of_student_in_group << endl;
+            cout << "Exam grades: ";
+            for (int i = 0; i < 3; ++i) {
+                cout << students[studentcount].grades.exam_grades[i] << " ";
+            }
+            cout << endl;
 
+
+            cout << "Credit grades: ";
+            for (int i = 0; i < 5; ++i) {
+                cout << students[studentcount].grades.credit_grades[i] << " ";
+            }
+            cout <<"\n\n\n";
+
+        }
+    }
+
+}
 
 int main() {
     int ammountstudents = 0;
