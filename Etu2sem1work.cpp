@@ -83,7 +83,41 @@ void addStudent(student_t* students, int& ammountstudents) {
     ammountstudents += 1;
 }
 void editStudents(const student_t* students, int ammountstudents) {
+    int groupOfStudentForChange;
+    int numberInGroupOfStudentForChange;
+    int studentcount;
+    cout << "Choose group of student";
+    cin >> groupOfStudentForChange;
+    cout << "Choose id in group of student";
+    cin >> numberInGroupOfStudentForChange;
+    for (studentcount = 0; studentcount < ammountstudents; studentcount += 1) {
+        if
+    }
+    do {
+        cout << "What you want to change?" << endl;
+        cout << "Choose an action:" << endl;
+        cout << "1. Change name" << endl;
+        cout << "2. Change surname" << endl;
+        cout << "3. Change patronymic" << endl;
+        cout << "?. Exit" << endl;
+        int choiceEdit;
+        cin >> choiceEdit;
+        switch (choiceEdit) {
+        case 1: {
 
+
+            break;
+        }
+        case 2: {
+
+
+            break;
+        }
+        default:
+            cout << "Invalid choice. Please try again." << endl;
+        }
+
+    } while (choiceEdit != ?);
 }
 
 void displayStudents(const student_t* students, int ammountstudents) {
@@ -146,7 +180,12 @@ void saveToFile(const student_t* students, int ammountstudents, const string& st
         cerr << "Unable to open file for reading." << endl;
     }
 }
+void studOutOfGroup(const student_t* students, int ammountstudents) {
 
+}
+void studOutOfNumber(const student_t* students, int ammountstudents) {
+
+}
 
 int main() {
     int ammountstudents = 0;
@@ -161,7 +200,9 @@ int main() {
         cout << "1. Create a new student record" << endl;
         cout << "2. Edit an existing student record" << endl;
         cout << "3. Display all student data" << endl;
-        cout << "4. Exit" << endl;
+        cout << "4. Display all students from group N" << endl;
+        cout << "5. Display all students with number N" << endl;
+        cout << "6. Exit" << endl;
         cin >> choice;
 
         switch (choice) {
@@ -174,14 +215,20 @@ int main() {
         case 3:
             displayStudents(students, ammountstudents);
             break;
-        case 4:
+        case 6:
             saveToFile(students, ammountstudents, "studentsbase.txt");
             cout << "Exiting program." << endl;
             break; 
+        case 4:
+            studOutOfGroup(students, ammountstudents);
+            break;
+        case 5:
+            studOutOfNumber(students, ammountstudents);
+            break;
         default:
             cout << "Invalid choice. Please try again." << endl;
         }
-    } while (choice != 4);
+    } while (choice != 6);
 
     return 0;
 }
