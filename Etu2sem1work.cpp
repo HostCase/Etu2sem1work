@@ -82,42 +82,106 @@ void addStudent(student_t* students, int& ammountstudents) {
     }
     ammountstudents += 1;
 }
-void editStudents(const student_t* students, int ammountstudents) {
+void editStudents(student_t* students, int ammountstudents) {
     int groupOfStudentForChange;
     int numberInGroupOfStudentForChange;
     int studentcount;
-    cout << "Choose group of student";
+    cout << "Choose group of student"<< endl;
     cin >> groupOfStudentForChange;
-    cout << "Choose id in group of student";
+    cout << "Choose id in group of student"<< endl;
     cin >> numberInGroupOfStudentForChange;
     for (studentcount = 0; studentcount < ammountstudents; studentcount += 1) {
-        if
+        if ((students[studentcount].group.number_of_group == groupOfStudentForChange) & (students[studentcount].group.id_of_student_in_group == numberInGroupOfStudentForChange)) {
+            break;
+        }
     }
+    int choiceEdit;
+    if (studentcount == ammountstudents) {
+        cout << "This student not found"<< endl;
+        choiceEdit = 10;
+    }
+    else {
+        cout << "You choosed student " << students[studentcount].name << " " << students[studentcount].surname << endl;
+    }
+    Sleep(150);
     do {
         cout << "What you want to change?" << endl;
         cout << "Choose an action:" << endl;
         cout << "1. Change name" << endl;
         cout << "2. Change surname" << endl;
         cout << "3. Change patronymic" << endl;
-        cout << "?. Exit" << endl;
-        int choiceEdit;
+        cout << "4. Change gender" << endl;
+        cout << "5. Change group" << endl;
+        cout << "6. Change id in group" << endl;
+        cout << "7. Enter new exam grades" << endl;
+        cout << "8. Enter new credit grades" << endl;
+        cout << "10. Exit" << endl;
+    
         cin >> choiceEdit;
         switch (choiceEdit) {
         case 1: {
-
-
+            cout << "Enter new name" << endl;
+            string newinfo;
+            cin >> newinfo;
+            students[studentcount].name = newinfo;
             break;
         }
         case 2: {
-
-
+            cout << "Enter new surname" << endl;
+            string newinfo;
+            cin >> newinfo;
+            students[studentcount].surname = newinfo;
+            break;
+        }
+        case 3: {
+            cout << "Enter new patronymic" << endl;
+            string newinfo;
+            cin >> newinfo;
+            students[studentcount].patronymic = newinfo;
+            break;
+        }
+        case 4: {
+            cout << "Enter new gender" << endl;
+            cout << "This feature is not available in your country" << endl;
+            break;
+        }
+        case 5: {
+            cout << "Enter new group id" << endl;
+            int newinfo;
+            cin >> newinfo;
+            students[studentcount].group.number_of_group = newinfo;
+            break;
+        }
+        case 6: {
+            cout << "Enter new id in group" << endl;
+            int newinfo;
+            cin >> newinfo;
+            students[studentcount].group.id_of_student_in_group = newinfo;
+            break;
+        }
+        case 7: {
+            cout << "Enter new exam grades(one grade and press enter 3 times)" << endl;
+            int newinfo;
+            for (int i = 0; i < 3; ++i) {
+                cin>>newinfo;
+                students[studentcount].grades.exam_grades[i] = newinfo;
+            }
+            break;
+        }
+        case 8: {
+            cout << "Enter new credit grades(one grade and press enter 5 times)" << endl;
+            int newinfo;
+            for (int i = 0; i < 5; ++i) {
+                cin >> newinfo;
+                students[studentcount].grades.credit_grades[i] = newinfo;
+            }
             break;
         }
         default:
             cout << "Invalid choice. Please try again." << endl;
         }
 
-    } while (choiceEdit != ?);
+    } while (choiceEdit != 10);
 }
 
 void displayStudents(const student_t* students, int ammountstudents) {
@@ -187,6 +251,26 @@ void studOutOfNumber(const student_t* students, int ammountstudents) {
 
 }
 
+void infoAboutOneStudent(const student_t* students, int ammountstudents) {
+    int groupOfStudentForChange;
+    int numberInGroupOfStudentForChange;
+    int studentcount;
+    cout << "Choose group of student" << endl;
+    cin >> groupOfStudentForChange;
+    cout << "Choose id in group of student" << endl;
+    cin >> numberInGroupOfStudentForChange;
+    for (studentcount = 0; studentcount < ammountstudents; studentcount += 1) {
+        if ((students[studentcount].group.number_of_group == groupOfStudentForChange) & (students[studentcount].group.id_of_student_in_group == numberInGroupOfStudentForChange)) {
+            break;
+        }
+    }
+    cout << "Name: " << students[studentcount].name << endl;
+    cout << "Surname: " << students[studentcount].surname << endl;
+    cout << "Patronymic: " << students[studentcount].patronymic << endl;
+    cout << "Gender: " << students[studentcount].gender << endl;
+}
+
+
 int main() {
     int ammountstudents = 0;
     student_t *students = new student_t[100000];
@@ -202,7 +286,8 @@ int main() {
         cout << "3. Display all student data" << endl;
         cout << "4. Display all students from group N" << endl;
         cout << "5. Display all students with number N" << endl;
-        cout << "6. Exit" << endl;
+        cout << "6. Display all info about ONE student" << endl;
+        cout << "7. Exit" << endl;
         cin >> choice;
 
         switch (choice) {
@@ -215,20 +300,23 @@ int main() {
         case 3:
             displayStudents(students, ammountstudents);
             break;
-        case 6:
-            saveToFile(students, ammountstudents, "studentsbase.txt");
-            cout << "Exiting program." << endl;
-            break; 
         case 4:
             studOutOfGroup(students, ammountstudents);
             break;
         case 5:
             studOutOfNumber(students, ammountstudents);
             break;
+        case 6:
+            infoAboutOneStudent(students, ammountstudents);
+            break;
+        case 7:
+            saveToFile(students, ammountstudents, "studentsbase.txt");
+            cout << "Exiting program." << endl;
+            break;
         default:
             cout << "Invalid choice. Please try again." << endl;
         }
-    } while (choice != 6);
+    } while (choice != 7);
 
     return 0;
 }
