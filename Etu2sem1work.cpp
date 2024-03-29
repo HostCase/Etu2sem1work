@@ -64,6 +64,10 @@ void addStudent(student_t* students, int& ammountstudents) {
 
     cout << "Enter the gender of the new student (M/F): ";
     cin >> students[ammountstudents].gender;
+    while(students[ammountstudents].gender != 'M' && students[ammountstudents].gender != 'W') {
+        cout << "\nUse W or M!!! " << endl;
+        cin >> students[ammountstudents].gender;
+    }
 
     cout << "Enter the group number of the new student: ";
     cin >> students[ammountstudents].group.number_of_group;
@@ -379,6 +383,22 @@ void sessionGrades(const student_t* students, int ammountstudents) {
     cout << "Have only five = " << countOnlyFive << endl << endl;
 }
 
+void countGender(const student_t* students, int ammountstudents) {
+    int countW=0;
+    int countM=0;
+    for (int studentcount = 0; studentcount < ammountstudents; studentcount += 1) {
+        if (students[studentcount].gender == 'W') {
+            countW += 1;
+
+        }
+        if (students[studentcount].gender == 'M') {
+            countM += 1;
+
+        }
+    }
+    cout << "We have " << countW << " womens and " << countM << " mans !" << endl;
+
+}
 int main() {
     int ammountstudents = 0;
     student_t *students = new student_t[100000];
@@ -396,7 +416,8 @@ int main() {
         cout << "5. Display all students with number N" << endl;
         cout << "6. Display all info about ONE student" << endl; 
         cout << "7. Display sessionGrades" << endl;
-        cout << "8. Exit" << endl;
+        cout << "8. Count woman and man" << endl;
+        cout << "9. Exit" << endl;
         cin >> choice;
 
         switch (choice) {
@@ -422,13 +443,16 @@ int main() {
             sessionGrades(students, ammountstudents);
             break;
         case 8:
+            countGender(students, ammountstudents);
+            break;
+        case 9:
             saveToFile(students, ammountstudents, "studentsbase.txt");
             cout << "Exiting program." << endl;
             break;
         default:
             cout << "Invalid choice. Please try again." << endl;
         }
-    } while (choice != 8);
+    } while (choice != 9);
 
     return 0;
 }
