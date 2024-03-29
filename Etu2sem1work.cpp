@@ -22,6 +22,7 @@ typedef struct {
     grades_t grades;
 } student_t;
 
+
 void loadFromFile(student_t* students, int& ammountstudents, const string& studentsbase) {
     ifstream file(studentsbase);
     if (file.is_open()) {
@@ -50,7 +51,6 @@ void loadFromFile(student_t* students, int& ammountstudents, const string& stude
         cerr << "Unable to open file for reading." << endl;
     }
 }
-
 void addStudent(student_t* students, int& ammountstudents) {
 
     cout << "Enter the name of the new student: ";
@@ -183,7 +183,6 @@ void editStudents(student_t* students, int ammountstudents) {
 
     } while (choiceEdit != 10);
 }
-
 void displayStudents(const student_t* students, int ammountstudents) {
     
 
@@ -214,7 +213,6 @@ void displayStudents(const student_t* students, int ammountstudents) {
         Sleep(150);
     }
 }
-
 void saveToFile(const student_t* students, int ammountstudents, const string& studentsbase) {
     ofstream file;
     file.open(studentsbase, ios::out);
@@ -244,7 +242,6 @@ void saveToFile(const student_t* students, int ammountstudents, const string& st
         cerr << "Unable to open file for reading." << endl;
     }
 }
-
 void studOutOfNumber(const student_t* students, int ammountstudents) {
     int idOfStudentForSearch;
     cout << "Choose id in group of student" << endl;
@@ -274,7 +271,6 @@ void studOutOfNumber(const student_t* students, int ammountstudents) {
     }
 
 }
-
 void infoAboutOneStudent(const student_t* students, int ammountstudents) {
     int groupOfStudentForSearch;
     int numberInGroupOfStudentForSearch;
@@ -322,6 +318,68 @@ void studOutOfGroup(const student_t* students, int ammountstudents) {
     }
 
 }
+void sessionGrades(const student_t* students, int ammountstudents) {
+    int countNoScholarship;
+    int countHaveFour;
+    int countOnlyFive;
+    int idOfStudTop[3] = { 0,1,2 };
+    int summOfTop[3] = { 0 };
+
+    for (int studentcount = 0; studentcount < ammountstudents; studentcount += 1) {
+        bool noScholar;
+        bool haveFour;
+        int summ = 0;
+        for (int i = 0; i < 3; ++i) {
+            summ += students[studentcount].grades.exam_grades[i];
+            if (students[studentcount].grades.exam_grades[i] == 3) {
+                noScholar = true;
+            }
+            if (students[studentcount].grades.exam_grades[i] == 4) {
+                haveFour = true;
+            }
+        }
+
+        for (int i = 0; i < 5; ++i) {
+            summ += students[studentcount].grades.credit_grades[i];
+            if (students[studentcount].grades.credit_grades[i] == 3) {
+                noScholar = true;
+            }
+            if (students[studentcount].grades.credit_grades[i] == 4) {
+                haveFour = true;
+            }
+        }
+        if (noScholar == true) {
+            countNoScholarship += 1;
+        }
+
+        if ((haveFour == true) & (noScholar == false) {
+            countHaveFour += 1;
+        }
+
+        if ((haveFour == false) & (noScholar == false) {
+            countOnlyFive += 1;
+        }
+
+        for (int i = 0; i < 3; i++) {
+            if (summ > summOfTop[i]) {
+                idOfStudTop[i] = studentcount;
+                    summOfTop[i] = summ;
+                    break;
+            }
+        }
+    }
+
+
+    cout << "List of top 3 students" << endl;
+    for (int i = 0; i < 3; i++) {
+        cout << "Name: " << students[idOfStudTop[i]].name << endl;
+        cout << "Surname: " << students[idOfStudTop[i]].surname << endl << endl;
+    }
+    cout << "Total students with no scholarship = " << countNoScholarship << endl;
+    cout << "Have four and five = " << countHaveFour << endl;
+    cout << "Have only five = " << countOnlyFive << endl << endl;
+
+}
 
 int main() {
     int ammountstudents = 0;
@@ -338,8 +396,9 @@ int main() {
         cout << "3. Display all student data" << endl;
         cout << "4. Display all students from group N" << endl;
         cout << "5. Display all students with number N" << endl;
-        cout << "6. Display all info about ONE student" << endl;
-        cout << "7. Exit" << endl;
+        cout << "6. Display all info about ONE student" << endl; 
+        cout << "7. Display sessionGrades" << endl;
+        cout << "8. Exit" << endl;
         cin >> choice;
 
         switch (choice) {
@@ -362,13 +421,16 @@ int main() {
             infoAboutOneStudent(students, ammountstudents);
             break;
         case 7:
+            sessionGrades(students, ammountstudents);
+            break;
+        case 8:
             saveToFile(students, ammountstudents, "studentsbase.txt");
             cout << "Exiting program." << endl;
             break;
         default:
             cout << "Invalid choice. Please try again." << endl;
         }
-    } while (choice != 7);
+    } while (choice != 8);
 
     return 0;
 }
