@@ -319,17 +319,17 @@ void studOutOfGroup(const student_t* students, int ammountstudents) {
 
 }
 void sessionGrades(const student_t* students, int ammountstudents) {
-    int countNoScholarship;
-    int countHaveFour;
-    int countOnlyFive;
+    int countNoScholarship = 0;
+    int countHaveFour = 0;
+    int countOnlyFive = 0;
     int idOfStudTop[3] = { 0,1,2 };
     int summOfTop[3] = { 0 };
 
     for (int studentcount = 0; studentcount < ammountstudents; studentcount += 1) {
-        bool noScholar;
-        bool haveFour;
+        bool noScholar = false;
+        bool haveFour = false;
         int summ = 0;
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < 3; i++) {
             summ += students[studentcount].grades.exam_grades[i];
             if (students[studentcount].grades.exam_grades[i] == 3) {
                 noScholar = true;
@@ -352,23 +352,22 @@ void sessionGrades(const student_t* students, int ammountstudents) {
             countNoScholarship += 1;
         }
 
-        if ((haveFour == true) & (noScholar == false) {
+        if ((haveFour == true) && (noScholar == false)) {
             countHaveFour += 1;
         }
 
-        if ((haveFour == false) & (noScholar == false) {
+        if ((haveFour == false) && (noScholar == false)) {
             countOnlyFive += 1;
         }
 
         for (int i = 0; i < 3; i++) {
             if (summ > summOfTop[i]) {
                 idOfStudTop[i] = studentcount;
-                    summOfTop[i] = summ;
-                    break;
+                summOfTop[i] = summ;
+                break;
             }
         }
     }
-
 
     cout << "List of top 3 students" << endl;
     for (int i = 0; i < 3; i++) {
@@ -378,7 +377,6 @@ void sessionGrades(const student_t* students, int ammountstudents) {
     cout << "Total students with no scholarship = " << countNoScholarship << endl;
     cout << "Have four and five = " << countHaveFour << endl;
     cout << "Have only five = " << countOnlyFive << endl << endl;
-
 }
 
 int main() {
