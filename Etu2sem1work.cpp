@@ -3,6 +3,7 @@
 #include <string>
 #include "windows.h"
 using namespace std;
+
 typedef struct {
     int number_of_group;
     int id_of_student_in_group;
@@ -13,6 +14,12 @@ typedef struct {
     int credit_grades[5];
 } grades_t;
 
+
+typedef struct {
+    bool out_of_city;
+    int fam_money;
+} dormitory_t;
+
 typedef struct {
     string name;
     string surname;
@@ -20,7 +27,10 @@ typedef struct {
     char gender;
     group_t group;
     grades_t grades;
+    dormitory_t dormitory;
 } student_t;
+
+
 
 
 void loadFromFile(student_t* students, int& ammountstudents, const string& studentsbase) {
@@ -42,7 +52,8 @@ void loadFromFile(student_t* students, int& ammountstudents, const string& stude
             for (int i = 0; i < 5; ++i) {
                 file >> students[studentcount].grades.credit_grades[i];
             }
-
+            file >> students[studentcount].dormitory.out_of_city;
+            file >> students[studentcount].dormitory.fam_money;
         }
 
         file.close();
@@ -84,6 +95,13 @@ void addStudent(student_t* students, int& ammountstudents) {
     for (int i = 0; i < 5; ++i) {
         cin >> students[ammountstudents].grades.credit_grades[i];
     }
+
+    cout << "Enter nonresident? 1-Yes 0-No : ";
+    cin >> students[ammountstudents].dormitory.out_of_city;
+    cout << "Family income : ";
+    cin >> students[ammountstudents].dormitory.fam_money;
+
+
     ammountstudents += 1;
 }
 void editStudents(student_t* students, int ammountstudents) {
@@ -119,7 +137,9 @@ void editStudents(student_t* students, int ammountstudents) {
         cout << "6. Change id in group" << endl;
         cout << "7. Enter new exam grades" << endl;
         cout << "8. Enter new credit grades" << endl;
-        cout << "10. Exit" << endl;
+        cout << "9. Change resident" << endl;
+        cout << "10. Change family income" << endl;
+        cout << "11. Exit" << endl;
     
         cin >> choiceEdit;
         switch (choiceEdit) {
@@ -145,7 +165,9 @@ void editStudents(student_t* students, int ammountstudents) {
             break;
         }
         case 4: {
+            char nothing;
             cout << "Enter new gender" << endl;
+            cin >> nothing;
             cout << "This feature is not available in your country" << endl;
             break;
         }
@@ -181,11 +203,31 @@ void editStudents(student_t* students, int ammountstudents) {
             }
             break;
         }
+
+
+        case 9: {
+            cout << "Enter 1 - yes or 0 - no" << endl;
+            bool newinfo;
+            cin >> newinfo;
+            students[studentcount].dormitory.out_of_city = newinfo;
+            break;
+        }
+        case 10: {
+            cout << "Enter new family income" << endl;
+            int newinfo;
+            cin >> newinfo;
+            students[studentcount].dormitory.fam_money = newinfo;
+            break;
+        }
+
+
+
+
         default:
             cout << "Invalid choice. Please try again." << endl;
         }
 
-    } while (choiceEdit != 10);
+    } while (choiceEdit != 11);
 }
 void displayStudents(const student_t* students, int ammountstudents) {
     
@@ -197,9 +239,8 @@ void displayStudents(const student_t* students, int ammountstudents) {
             cout << "Gender: " << students[studentcount].gender << endl;
             cout << "Group number: " << students[studentcount].group.number_of_group << endl;
             cout << "ID in group: " << students[studentcount].group.id_of_student_in_group << endl;
-
-
-
+            cout << "Non-res student? 1 - yes 0 - no : " << students[studentcount].dormitory.out_of_city << endl;
+            cout << "Fam money: " << students[studentcount].dormitory.fam_money << endl;
         cout << "Exam grades: ";
         for (int i = 0; i < 3; ++i) {
             cout << students[studentcount].grades.exam_grades[i] << " ";
@@ -237,6 +278,8 @@ void saveToFile(const student_t* students, int ammountstudents, const string& st
             for (int i = 0; i < 5; ++i) {
                 file << students[studentcount].grades.credit_grades[i] << "\n";
             }
+            file << students[studentcount].dormitory.out_of_city << "\n";
+            file << students[studentcount].dormitory.fam_money << "\n";
 
         }
 
@@ -382,7 +425,38 @@ void sessionGrades(const student_t* students, int ammountstudents) {
     cout << "Have four and five = " << countHaveFour << endl;
     cout << "Have only five = " << countOnlyFive << endl << endl;
 }
+void dorminatoryCHECK(const student_t* students, int ammountstudents) {
 
+    int idOfStudTop[10] = { 0 };
+    int summOfTop[10] = { 0 };
+    int dormcount = 0;
+    for (int studentcount = 0; studentcount < ammountstudents; studentcount += 1) {
+
+        if (students[studentcount].dormitory.out_of_city == true) {
+
+
+            for (int i = 0; i < 10; i++) {
+                if (students[studentcount].dormitory.fam_money > summOfTop[i]) {
+                    idOfStudTop[i] = studentcount;
+                    summOfTop[i] = students[studentcount].dormitory.fam_money;
+                    dormcount += 1;
+                    break;
+                    
+                }
+            }
+        }
+    }
+    if (dormcount != 0) {
+        cout << "List of top students" << endl;
+        for (int i = 0; i < dormcount; i++) {
+            cout << "Name: " << students[idOfStudTop[i]].name << endl;
+            cout << "Surname: " << students[idOfStudTop[i]].surname << endl << endl;
+        }
+    }
+    else {
+        cout << "There are no students in need of a dorminatory " << endl;
+    }
+}
 void countGender(const student_t* students, int ammountstudents) {
     int countW=0;
     int countM=0;
@@ -417,7 +491,8 @@ int main() {
         cout << "6. Display all info about ONE student" << endl; 
         cout << "7. Display sessionGrades" << endl;
         cout << "8. Count woman and man" << endl;
-        cout << "9. Exit" << endl;
+        cout << "9. Dorm check" << endl;
+        cout << "10. Exit" << endl;
         cin >> choice;
 
         switch (choice) {
@@ -446,13 +521,16 @@ int main() {
             countGender(students, ammountstudents);
             break;
         case 9:
+            dorminatoryCHECK(students, ammountstudents); 
+                break;
+        case 10:
             saveToFile(students, ammountstudents, "studentsbase.txt");
             cout << "Exiting program." << endl;
             break;
         default:
             cout << "Invalid choice. Please try again." << endl;
         }
-    } while (choice != 9);
+    } while (choice != 10);
 
     return 0;
 }
