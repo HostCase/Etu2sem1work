@@ -448,7 +448,7 @@ void dorminatoryCHECK(const student_t* students, int ammountstudents) {
     }
     if (dormcount != 0) {
         cout << "List of top students" << endl;
-        for (int i = 0; i < dormcount; i++) {
+        for (int i = dormcount-1; i >-1; i--) {
             cout << "Name: " << students[idOfStudTop[i]].name << endl;
             cout << "Surname: " << students[idOfStudTop[i]].surname << endl << endl;
         }
@@ -473,6 +473,22 @@ void countGender(const student_t* students, int ammountstudents) {
     cout << "We have " << countW << " womens and " << countM << " mans !" << endl;
 
 }
+void incomeCheck(const student_t* students, int ammountstudents) {
+    int incomeSearch;
+    cout << "Enter income " << endl;
+    cin >> incomeSearch;
+    for (int studentcount = 0; studentcount < ammountstudents; studentcount += 1) {
+        if ((students[studentcount].dormitory.fam_money <incomeSearch) ) {
+            cout << "Name: " << students[studentcount].name << endl;
+            cout << "Surname: " << students[studentcount].surname << endl;
+            cout << "Patronymic: " << students[studentcount].patronymic << endl;
+            cout << "Gender: " << students[studentcount].gender << endl<< endl;
+            
+        }
+    }
+
+}
+
 int main() {
     int ammountstudents = 0;
     student_t *students = new student_t[100000];
@@ -492,7 +508,8 @@ int main() {
         cout << "7. Display sessionGrades" << endl;
         cout << "8. Count woman and man" << endl;
         cout << "9. Dorm check" << endl;
-        cout << "10. Exit" << endl;
+        cout << "10. Minimal income check" << endl;
+        cout << "11. Exit" << endl;
         cin >> choice;
 
         switch (choice) {
@@ -524,13 +541,16 @@ int main() {
             dorminatoryCHECK(students, ammountstudents); 
                 break;
         case 10:
+            incomeCheck(students, ammountstudents);
+            break;
+        case 11:
             saveToFile(students, ammountstudents, "studentsbase.txt");
             cout << "Exiting program." << endl;
             break;
         default:
             cout << "Invalid choice. Please try again." << endl;
         }
-    } while (choice != 10);
+    } while (choice != 11);
 
     return 0;
 }
