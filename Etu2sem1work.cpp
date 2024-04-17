@@ -75,8 +75,8 @@ void addStudent(student_t* students, int& ammountstudents) {
 
     cout << "Enter the gender of the new student (M/F): ";
     cin >> students[ammountstudents].gender;
-    while(students[ammountstudents].gender != 'M' && students[ammountstudents].gender != 'W') {
-        cout << "\nUse W or M!!! " << endl;
+    while(students[ammountstudents].gender != 'M' && students[ammountstudents].gender != 'F') {
+        cout << "\nUse W or F!!! " << endl;
         cin >> students[ammountstudents].gender;
     }
 
@@ -86,12 +86,12 @@ void addStudent(student_t* students, int& ammountstudents) {
     cout << "Enter the ID in group of the new student: ";
     cin >> students[ammountstudents].group.id_of_student_in_group;
 
-    cout << "Enter exam grades for the new student (3 grades): ";
+    cout << "Enter exam grades for the new student (3 grades in one enter): ";
     for (int i = 0; i < 3; ++i) {
         cin >> students[ammountstudents].grades.exam_grades[i];
     }
 
-    cout << "Enter credit grades for the new student (5 grades): ";
+    cout << "Enter credit grades for the new student (5 grades in one enter): ";
     for (int i = 0; i < 5; ++i) {
         cin >> students[ammountstudents].grades.credit_grades[i];
     }
@@ -505,7 +505,7 @@ int main() {
         cout << "4. Display all students from group N" << endl;
         cout << "5. Display all students with number N" << endl;
         cout << "6. Display all info about ONE student" << endl; 
-        cout << "7. Display sessionGrades" << endl;
+        cout << "7. Display session grades" << endl;
         cout << "8. Count woman and man" << endl;
         cout << "9. Dorm check" << endl;
         cout << "10. Minimal income check" << endl;
