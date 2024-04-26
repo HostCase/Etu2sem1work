@@ -462,7 +462,7 @@ void countGender(const student_t* students, int ammountstudents) {
     int countW=0;
     int countM=0;
     for (int studentcount = 0; studentcount < ammountstudents; studentcount += 1) {
-        if (students[studentcount].gender == 'W') {
+        if (students[studentcount].gender == 'F') {
             countW += 1;
 
         }
