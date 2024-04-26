@@ -4,23 +4,24 @@
 #include "windows.h"
 using namespace std;
 
-typedef struct {
+struct group_t {
     int number_of_group;
     int id_of_student_in_group;
-} group_t;
+};
 
-typedef struct {
+struct grades_t {
     int exam_grades[3];
     int credit_grades[5];
-} grades_t;
+};
 
 
-typedef struct {
+struct dormitory_t {
     bool out_of_city;
     int fam_money;
-} dormitory_t;
+};
 
-typedef struct {
+struct student_t
+{
     string name;
     string surname;
     string patronymic;
@@ -28,7 +29,7 @@ typedef struct {
     group_t group;
     grades_t grades;
     dormitory_t dormitory;
-} student_t;
+};
 
 
 
