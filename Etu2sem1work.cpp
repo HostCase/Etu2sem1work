@@ -82,11 +82,30 @@ void addStudent(student_t* students, int& ammountstudents) {
     }
 
     cout << "Enter the group number of the new student: ";
-    cin >> students[ammountstudents].group.number_of_group;
-
+    int numbergroup;
+    cin >> numbergroup;
+    students[ammountstudents].group.number_of_group = numbergroup;
     cout << "Enter the ID in group of the new student: ";
-    cin >> students[ammountstudents].group.id_of_student_in_group;
-
+    int idingroup;
+    cin >> idingroup;
+    students[ammountstudents].group.id_of_student_in_group = idingroup;
+    bool groupavab==0;
+    while (!groupavab) {
+        cout << "Enter the group number of the new student: ";
+        cin >> numbergroup;
+        students[ammountstudents].group.number_of_group = numbergroup;
+        cout << "Enter the ID in group of the new student: ";
+        cin >> idingroup;
+        students[ammountstudents].group.id_of_student_in_group = idingroup;
+        for (int id = 0; id < ammountstudents - 1; id++) {
+            if ((students[id].group.number_of_group = numbergroup) && (students[id].group.id_of_student_in_group == idingroup)) {
+                groupavab = false;
+            }
+            else {
+                groupavab = true;
+            }
+        }
+    }
     cout << "Enter exam grades for the new student (3 grades in one enter): ";
     for (int i = 0; i < 3; ++i) {
         cin >> students[ammountstudents].grades.exam_grades[i];
